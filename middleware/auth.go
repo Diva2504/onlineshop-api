@@ -6,6 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
+	"github.com/takadev15/onlineshop-api/config"
+	"github.com/takadev15/onlineshop-api/models"
 	"github.com/takadev15/onlineshop-api/utils"
 )
 
@@ -26,8 +28,8 @@ func GenerateToken(id uint, email string) (string, error) {
   return signedToken, nil
 }
 
-func Authentication(c *gin.Context) gin.HandlerFunc {
-  return func(ctx *gin.Context) {
+func Authentication() gin.HandlerFunc {
+  return func(c *gin.Context) {
     verifiedToken, err := utils.VerifyToken(c)
     if err != nil {
       c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
@@ -40,3 +42,32 @@ func Authentication(c *gin.Context) gin.HandlerFunc {
   }
 }
 
+func ProductAuth() gin.HandlerFunc {
+  return func(ctx *gin.Context) {}
+}
+
+// Try to find how do this hexagonally
+func AdminAuth() gin.HandlerFunc {
+  return func(c *gin.Context) {
+    var data models.User
+    db := config.GetDB()
+    userData := c.MustGet("user_data").(jwt.MapClaims)
+    userId := int(userData["id"].(float64))
+    err := db.Select("role").First(&data, int(userId)).Error
+    if err != nil {
+      c.AbortWithStatusJSON(http.StatusNotFound, gin.H{
+        "error" : "data not found",
+        "message": "data not exist",
+      })
+      return
+    }
+    if data.Role != "Admin" {
+      c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{
+        "error" : "unauthorized",
+        "message" : "don't have access",
+      })
+      return
+    }
+    c.Next()
+  }
+}

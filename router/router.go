@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/takadev15/onlineshop-api/config"
 	"github.com/takadev15/onlineshop-api/controller"
+	"github.com/takadev15/onlineshop-api/middleware"
 )
 
 func RoutesList() *gin.Engine{
@@ -17,6 +18,7 @@ func RoutesList() *gin.Engine{
     userRouter.PATCH("/topup")
   }
   categoriesRouter := r.Group("/categories")
+  categoriesRouter.Use(middleware.Authentication(), middleware.AdminAuth())
   {
     categoriesRouter.GET("/")
     categoriesRouter.POST("/")
