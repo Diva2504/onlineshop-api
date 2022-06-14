@@ -3,19 +3,18 @@ version: "3"
 services:
   # DB
   db:
-    container_name: assignment2_db
+    container_name: onlineshop
     image: "postgres:latest"
     restart: always
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=diva
+      - POSTGRES_PASSWORD=1234
+      - POSTGRES_DB=onlineshop_db
     volumes:
       - ./data/pgdata:/var/lib/postgresql/data
-    env_file:
-      - .env
+
 
   # App
 

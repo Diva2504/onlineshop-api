@@ -11,20 +11,13 @@ import (
 )
 
 type ResponseProduct struct {
-	ID         int       `json:"id"`
+	ID         uint      `json:"id"`
 	Title      string    `json:"title"`
 	Price      int       `json:"price"`
 	Stock      int       `json:"stock"`
 	Updated_at time.Time `json:"updated_at"`
 	Created_at time.Time `json:"created_at"`
-	CategoryId int       `json:"category_id"`
-}
-
-type ReqProduct struct {
-	Title      string `json:"message"`
-	Price      int    `json:"price"`
-	Stock      int    `json:"stock"`
-	CategoryId int    `json:"category_id"`
+	CategoryId uint      `json:"category_id"`
 }
 
 var counter uint
@@ -34,7 +27,7 @@ func (db Handlers) GetAllProduct(c *gin.Context) {
 	res, err := repository.GetAllProduct(db.Connect)
 
 	for i := range res {
-		productres[i].ID = int(res[i].ID)
+		productres[i].ID = res[i].ID
 		productres[i].Title = res[i].Title
 		productres[i].Price = res[i].Price
 		productres[i].Stock = res[i].Stock
@@ -63,7 +56,7 @@ func (db Handlers) GetProduct(c *gin.Context) {
 	productId, _ := strconv.Atoi(c.Param("id"))
 	res, err := repository.GetProduct(productId, db.Connect)
 	{
-		productres.ID = int(res.ID)
+		productres.ID = res.ID
 		productres.Title = res.Title
 		productres.Price = res.Price
 		productres.Stock = res.Stock
@@ -83,9 +76,8 @@ func (db Handlers) GetProduct(c *gin.Context) {
 
 func (db Handlers) CreateProduct(c *gin.Context) {
 	var (
-		product    models.Product
-		result     gin.H
-		reqproduct ReqProduct
+		product models.Product
+		result  gin.H
 	)
 	if err := c.ShouldBindJSON(&product); err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
@@ -96,21 +88,8 @@ func (db Handlers) CreateProduct(c *gin.Context) {
 			"message": err,
 		}
 	}
-	counter++
-	{
-		product.ID = counter
-		product.Title = reqproduct.Title
-		product.Price = reqproduct.Price
-		product.Stock = reqproduct.Stock
-		product.CategoryId = reqproduct.CategoryId
-	}
 	result = gin.H{
-		"id":          product.ID,
-		"title":       product.Title,
-		"price":       product.Price,
-		"stock":       product.Stock,
-		"category_id": product.CategoryId,
-		"created_at":  product.CreatedAt,
+		"product": product,
 	}
 	c.JSON(http.StatusOK, result)
 }
@@ -147,13 +126,7 @@ func (db Handlers) UpdateProduct(c *gin.Context) {
 		}
 	}
 	result = gin.H{
-		"id":          product.ID,
-		"title":       product.Title,
-		"price":       product.Price,
-		"stock":       product.Stock,
-		"category_id": product.CategoryId,
-		"created_at":  product.UpdatedAt,
-		"updated_at":  product.UpdatedAt,
+		"product": product,
 	}
 	c.JSON(http.StatusOK, result)
 }

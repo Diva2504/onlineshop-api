@@ -35,7 +35,7 @@ func RoutesList() *gin.Engine {
 
 	transactionRouter := r.Group("/transactions")
 	{
-		transactionRouter.POST("/", handler.MakeTransaction)
+		transactionRouter.POST("/", handler.CreateTransaction)
 		transactionRouter.GET("/my-transaction", handler.GetforUser)
 		transactionRouter.GET("/:user_id", handler.GetforAdmin)
 	}

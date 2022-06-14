@@ -10,11 +10,11 @@ import (
 )
 
 var (
-	userName = "taka"
-	dbName   = "hacktiv_onlineshop"
-	dbPass   = "depok1001"
+	userName = "diva"
+	dbName   = "onlineshop_db"
+	dbPass   = "1234"
 	dbPort   = "5432"
-  dbHost   = "localhost"
+	dbHost   = "localhost"
 	db       *gorm.DB
 	err      error
 )
@@ -30,5 +30,5 @@ func DBInit() {
 }
 
 func GetDB() *gorm.DB {
-  return db
+	return db
 }
