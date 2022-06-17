@@ -386,7 +386,7 @@ admin.
       ]   
     ``` 
    
-## Cara Menjalankan Program
+## Cara Menjalankan Code
 Pastikan telah menginstal Go dan Docker pada komputer.
 Instal Image Postgresql dari website hub.docker.com
 gunakan perintah 
