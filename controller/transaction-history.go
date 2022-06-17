@@ -56,7 +56,7 @@ func (db Handlers) GetforAdmin(c *gin.Context) {
 		transactionRes[i].Product.Title = res[i].Product.Title
 		transactionRes[i].Product.Price = res[i].Product.Price
 		transactionRes[i].Product.Stock = res[i].Product.Stock
-		transactionRes[i].Product.CategoryId = res[i].Product.CategoryId
+		transactionRes[i].Product.CategoryId = res[i].Product.CategoryID
 		transactionRes[i].Product.Created_at = res[i].Product.CreatedAt
 		transactionRes[i].Product.Updated_at = res[i].Product.UpdatedAt
 
@@ -96,7 +96,7 @@ func (db Handlers) GetforUser(c *gin.Context) {
 		transactionRes[i].Product.Title = res[i].Product.Title
 		transactionRes[i].Product.Price = res[i].Product.Price
 		transactionRes[i].Product.Stock = res[i].Product.Stock
-		transactionRes[i].Product.CategoryId = res[i].Product.CategoryId
+		transactionRes[i].Product.CategoryId = res[i].Product.CategoryID
 		transactionRes[i].Product.Created_at = res[i].Product.CreatedAt
 		transactionRes[i].Product.Updated_at = res[i].Product.UpdatedAt
 	}

@@ -23,17 +23,7 @@ type ResponseProduct struct {
 var counter uint
 
 func (db Handlers) GetAllProduct(c *gin.Context) {
-	var productres []ResponseProduct
 	res, err := repository.GetAllProduct(db.Connect)
-
-	for i := range res {
-		productres[i].ID = res[i].ID
-		productres[i].Title = res[i].Title
-		productres[i].Price = res[i].Price
-		productres[i].Stock = res[i].Stock
-		productres[i].CategoryId = res[i].CategoryId
-		productres[i].Created_at = res[i].CreatedAt
-	}
 
 	var result gin.H
 
@@ -43,7 +33,7 @@ func (db Handlers) GetAllProduct(c *gin.Context) {
 		}
 	}
 	result = gin.H{
-		"products": productres,
+		"products": res,
 	}
 	c.JSON(http.StatusOK, result)
 }
@@ -60,7 +50,7 @@ func (db Handlers) GetProduct(c *gin.Context) {
 		productres.Title = res.Title
 		productres.Price = res.Price
 		productres.Stock = res.Stock
-		productres.CategoryId = res.CategoryId
+		productres.CategoryId = res.CategoryID
 		productres.Created_at = res.CreatedAt
 	}
 	if err != nil {

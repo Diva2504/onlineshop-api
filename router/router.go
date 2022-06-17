@@ -18,8 +18,8 @@ func RoutesList() *gin.Engine {
 	}
 	categoriesRouter := r.Group("/categories")
 	{
-		categoriesRouter.GET("/")
-		categoriesRouter.POST("/")
+		categoriesRouter.GET("/", handler.GetCategory)
+		categoriesRouter.POST("/", handler.CreateCategory)
 		categoriesRouter.PATCH("/:id")
 		categoriesRouter.DELETE("/:id")
 	}
@@ -37,7 +37,7 @@ func RoutesList() *gin.Engine {
 	{
 		transactionRouter.POST("/", handler.CreateTransaction)
 		transactionRouter.GET("/my-transaction", handler.GetforUser)
-		transactionRouter.GET("/:user_id", handler.GetforAdmin)
+		// transactionRouter.GET("/:user_id", handler.GetforAdmin)
 	}
 	return r
 }

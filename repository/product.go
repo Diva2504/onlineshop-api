@@ -29,10 +29,10 @@ func GetProduct(id int, db *gorm.DB) (models.Product, error) {
 }
 
 func CreateProduct(req *models.Product, db *gorm.DB) error {
-	result := db.Create(&req)
+	err := db.Create(&req).Error
 
-	if result.Error != nil {
-		return result.Error
+	if err != nil {
+		return err
 	}
 	return nil
 }
