@@ -384,4 +384,27 @@ admin.
            }
          } 
       ]   
-    ```              
+    ``` 
+   
+## Cara Menjalankan Program
+Pastikan telah menginstal Go dan Docker pada komputer.
+Instal Image Postgresql dari website hub.docker.com
+gunakan perintah 
+```shell
+    docker pull postgres
+```
+Download Repository ini dengan 
+```shell
+    git clone https://github.com/takadev15/onlineshop-api.git
+```
+Menuju folder direktori onlineshop-api
+kemudian jalankan terlebih dahulu file docker-compose.yml untuk konfigurasi database dengan perintah
+```shell
+    docker-compose up
+```
+kemudian untuk menjalankan aplikasi gunakan perintah 
+```shell
+    go run main.go
+```
+Server sudah berjalan di port "3030"
+endpoint dapat dicoba menggunakan aplikasi REST CLIENT seperti Postman
