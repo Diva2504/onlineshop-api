@@ -20,8 +20,6 @@ type ResponseProduct struct {
 	CategoryId uint      `json:"category_id"`
 }
 
-var counter uint
-
 func (db Handlers) GetAllProduct(c *gin.Context) {
 	res, err := repository.GetAllProduct(db.Connect)
 
