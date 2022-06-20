@@ -6,5 +6,5 @@ type Category struct {
 	gorm.Model
 	Type               string
 	SoldProductAmmount int
-  Products           []Product `gorm:"foreignKey:CategoryID;references:ID;"`
+  Products           []Product 
 }

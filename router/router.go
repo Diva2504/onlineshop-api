@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/takadev15/onlineshop-api/config"
 	"github.com/takadev15/onlineshop-api/controller"
+	"github.com/takadev15/onlineshop-api/middleware"
 )
 
 func RoutesList() *gin.Engine {
@@ -17,6 +18,7 @@ func RoutesList() *gin.Engine {
 		userRouter.PATCH("/topup")
 	}
 	categoriesRouter := r.Group("/categories")
+  categoriesRouter.Use(middleware.AdminAuth())
 	{
 		categoriesRouter.GET("/", handler.GetCategory)
 		categoriesRouter.POST("/", handler.CreateCategory)
@@ -46,4 +48,5 @@ func RoutesList() *gin.Engine {
 //     "full_name": "Dagga",
 //     "email": "hhddh@jdjd.com",
 //     "password": "uuuuuu"
+// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhoZGRoQGpkanNzZC5jb20iLCJleHAiOjE2NTU3NzY2MDcsImlkIjoyfQ.KQC6fNkW5C8lykesYhe4L1KhYpd2Cb7gvKQogR5sgrQ
 // }

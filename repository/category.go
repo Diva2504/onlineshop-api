@@ -16,7 +16,7 @@ func CreateCategory(data *models.Category, db *gorm.DB) (models.Category, error)
 
 func GetAllCategory(db *gorm.DB) ([]models.Category, error){
   var categories []models.Category
-  err := db.Find(&categories).Error
+  err := db.Debug().Preload("Products").Find(&categories).Error
   if err != nil {
     return nil, err
   }
