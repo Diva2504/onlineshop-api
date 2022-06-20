@@ -50,6 +50,12 @@ func (db Handlers) UserLogin(c *gin.Context) {
 	return
 }
 
-func (db Handlers) UserTopup() {
+// func (db Handlers) UserTopup(c *gin.Context) {
+//   var data int
+//   if err := c.ShouldBindJSON(&data); err != nil {
+//     c.AbortWithStatus(http.StatusBadRequest)
+//   }
+//   res, err := repository.UserTopUp(data, 1, db.Connect)
+//   c.JSON(http.StatusOK, gin.H{})
+// }
 
-}
