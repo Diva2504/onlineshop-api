@@ -29,8 +29,9 @@ func (db Handlers) GetAllProduct(c *gin.Context) {
 
 	if err != nil {
 		result = gin.H{
-			"message": err.Error(),
+			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"products": res,
@@ -57,6 +58,7 @@ func (db Handlers) GetProduct(c *gin.Context) {
 		result = gin.H{
 			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"product": productres,
@@ -77,27 +79,26 @@ func (db Handlers) CreateProduct(c *gin.Context) {
 		result = gin.H{
 			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"product": product,
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusCreated, result)
 }
 
 func (db Handlers) DeleteProduct(c *gin.Context) {
-	var result gin.H
 	requestId := c.Param("id")
 	id, _ := strconv.Atoi(requestId)
 	err := repository.DeleteProduct(id, db.Connect)
 	if err != nil {
-		result = gin.H{
+		c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{
 			"message": err,
-		}
+		})
 	}
-	result = gin.H{
-		"message": "Product has been successfully deleted",
-	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "product has been succesfully deleted",
+	})
 }
 
 func (db Handlers) UpdateProduct(c *gin.Context) {
@@ -114,9 +115,10 @@ func (db Handlers) UpdateProduct(c *gin.Context) {
 		result = gin.H{
 			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"product": product,
 	}
-	c.JSON(http.StatusOK, result)
+	c.JSON(http.StatusCreated, result)
 }

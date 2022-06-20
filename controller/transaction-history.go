@@ -72,8 +72,9 @@ func (db Handlers) GetforAdmin(c *gin.Context) {
 
 	if err != nil {
 		result = gin.H{
-			"message": err.Error(),
+			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"transaction": transactionRes,
@@ -105,8 +106,9 @@ func (db Handlers) GetforUser(c *gin.Context) {
 
 	if err != nil {
 		result = gin.H{
-			"message": err.Error(),
+			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"my_transaction": transactionRes,
@@ -132,6 +134,7 @@ func (db Handlers) CreateTransaction(c *gin.Context) {
 		result = gin.H{
 			"message": err,
 		}
+		c.AbortWithStatusJSON(http.StatusInternalServerError, result)
 	}
 	result = gin.H{
 		"data": res,
