@@ -72,14 +72,16 @@ func (db Handlers) CreateProduct(c *gin.Context) {
 	if err := c.ShouldBindJSON(&product); err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
-	err := repository.CreateProduct(&product, db.Connect)
+	err := repository.CreateProduct(product, db.Connect)
 	if err != nil {
-		result = gin.H{
-			"message": err,
-		}
+	  c.JSON(http.StatusInternalServerError, gin.H{
+      "message" : err,
+    })
+    return
 	}
 	result = gin.H{
-		"product": product,
+		"message": "sucess",
+    "Added Item" : product.Title,
 	}
 	c.JSON(http.StatusOK, result)
 }
@@ -109,14 +111,15 @@ func (db Handlers) UpdateProduct(c *gin.Context) {
 		c.AbortWithStatus(http.StatusBadRequest)
 	}
 	productId, _ := strconv.Atoi(c.Param("id"))
-	_, err := repository.UpdateProduct(productId, &product, db.Connect)
+	res, err := repository.UpdateProduct(productId, &product, db.Connect)
 	if err != nil {
-		result = gin.H{
-			"message": err,
-		}
+    c.JSON(http.StatusInternalServerError, gin.H{
+      "message" : err.Error(),
+    })
 	}
 	result = gin.H{
-		"product": product,
+		"product": res,
 	}
 	c.JSON(http.StatusOK, result)
 }
+

@@ -11,7 +11,7 @@ import (
 	"github.com/takadev15/onlineshop-api/utils"
 )
 
-var secret = "abcd"
+var secret = "abcdefghijklmnopq"
 
 func GenerateToken(id uint, email string) (string, error) {
   token := jwt.New(jwt.SigningMethodHS256)
@@ -37,6 +37,9 @@ func Authentication() gin.HandlerFunc {
         "message" : err.Error(),
       })
     }
+    data := verifiedToken.(jwt.MapClaims)
+    c.Set("id", data["id"])
+    c.Set("email", data["email"])
     c.Set("user_data", verifiedToken)
     c.Next()
   }

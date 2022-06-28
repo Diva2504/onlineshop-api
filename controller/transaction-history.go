@@ -1,11 +1,11 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt"
 	"github.com/takadev15/onlineshop-api/repository"
 )
 
@@ -82,24 +82,7 @@ func (db Handlers) GetforAdmin(c *gin.Context) {
 }
 
 func (db Handlers) GetforUser(c *gin.Context) {
-	var transactionRes []ResforTransaction
 	res, err := repository.GetforAdmin(db.Connect)
-
-	for i := range res {
-		transactionRes[i].ID = res[i].ID
-		transactionRes[i].ProductId = res[i].ProductId
-		transactionRes[i].UserID = res[i].UserId
-		transactionRes[i].TotalPrice = res[i].TotalPrice
-		transactionRes[i].Quantity = res[i].Quantity
-		transactionRes[i].Product.ID = res[i].Product.ID
-
-		transactionRes[i].Product.Title = res[i].Product.Title
-		transactionRes[i].Product.Price = res[i].Product.Price
-		transactionRes[i].Product.Stock = res[i].Product.Stock
-		transactionRes[i].Product.CategoryId = res[i].Product.CategoryID
-		transactionRes[i].Product.Created_at = res[i].Product.CreatedAt
-		transactionRes[i].Product.Updated_at = res[i].Product.UpdatedAt
-	}
 
 	var result gin.H
 
@@ -109,7 +92,7 @@ func (db Handlers) GetforUser(c *gin.Context) {
 		}
 	}
 	result = gin.H{
-		"my_transaction": transactionRes,
+		"my_transaction": res,
 	}
 	c.JSON(http.StatusOK, result)
 }
@@ -120,9 +103,9 @@ func (db Handlers) CreateTransaction(c *gin.Context) {
 		result gin.H
 	)
 
-	userData := c.MustGet("userdata").(jwt.MapClaims)
-
-	userId := uint(userData["id"].(float64))
+  fmt.Print(c)
+  userData := c.MustGet("id")
+	userId := uint(userData.(float64))
 
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.AbortWithStatus(http.StatusBadRequest)

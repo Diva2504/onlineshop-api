@@ -1,11 +1,23 @@
 package models
 
-import "gorm.io/gorm"
+import (
+	"github.com/go-playground/validator"
+	"gorm.io/gorm"
+)
 
 type Product struct {
 	gorm.Model
 	Title      string `gorm:"not null"`
-	Price      int    `gorm:"not null" validate:"required,price,min=0,max=50.000.000"`
-	Stock      int    `gorm:"not null" validate:"required,stock,min=5"`
-  CategoryID uint   
+	Price      int    `gorm:"not null" validate:"required,numeric,min=0,max=50000000"`
+	Stock      int    `gorm:"not null" validate:"required,numeric,min=5"`
+  CategoryID uint   `json:"category_id"`
+}
+
+func (p *Product) BeforeCreate(tx *gorm.DB) error {
+  validate := validator.New()
+  err := validate.Struct(p)
+  if err != nil {
+    return err
+  }
+  return nil
 }

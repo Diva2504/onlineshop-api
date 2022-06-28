@@ -15,18 +15,19 @@ func RoutesList() *gin.Engine {
 	{
 		userRouter.POST("/login", handler.UserLogin)
 		userRouter.POST("/register", handler.UserRegister)
-		userRouter.PATCH("/topup")
+		userRouter.PATCH("/topup", middleware.Authentication(), handler.UserTopup)
 	}
 	categoriesRouter := r.Group("/categories")
-  categoriesRouter.Use(middleware.AdminAuth())
+  categoriesRouter.Use(middleware.Authentication(), middleware.AdminAuth())
 	{
 		categoriesRouter.GET("/", handler.GetCategory)
 		categoriesRouter.POST("/", handler.CreateCategory)
-		categoriesRouter.PATCH("/:id")
-		categoriesRouter.DELETE("/:id")
+		categoriesRouter.PATCH("/:id", handler.UpdateCategory)
+		categoriesRouter.DELETE("/:id", handler.DeleteCategory)
 	}
 
 	productRouter := r.Group("/products")
+  productRouter.Use(middleware.Authentication(), middleware.AdminAuth())
 	{
 		productRouter.GET("/", handler.GetAllProduct)
 		productRouter.GET("/:id", handler.GetProduct)
@@ -36,17 +37,11 @@ func RoutesList() *gin.Engine {
 	}
 
 	transactionRouter := r.Group("/transactions")
+  transactionRouter.Use(middleware.Authentication())
 	{
 		transactionRouter.POST("/", handler.CreateTransaction)
 		transactionRouter.GET("/my-transaction", handler.GetforUser)
-		// transactionRouter.GET("/:user_id", handler.GetforAdmin)
 	}
 	return r
 }
 
-// {
-//     "full_name": "Dagga",
-//     "email": "hhddh@jdjd.com",
-//     "password": "uuuuuu"
-// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImhoZGRoQGpkanNzZC5jb20iLCJleHAiOjE2NTU3NzY2MDcsImlkIjoyfQ.KQC6fNkW5C8lykesYhe4L1KhYpd2Cb7gvKQogR5sgrQ
-// }

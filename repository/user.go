@@ -33,12 +33,12 @@ func UserLogin(data *models.User, db *gorm.DB) (models.User, error) {
 
 func UserTopUp(data int, userId uint, db *gorm.DB) (int, error){
   var user models.User
-  if err := db.Debug().First(&user, data).Error; err != nil {
+  if err := db.Debug().First(&user, userId).Error; err != nil {
     return 0, err
   }
   err := db.Debug().Model(&user).Update("balance", data).Error
   if err != nil {
     return 0, err
   }
-  return 0, nil
+  return data, nil
 }

@@ -28,7 +28,7 @@ func GetProduct(id int, db *gorm.DB) (models.Product, error) {
 	return product, err
 }
 
-func CreateProduct(req *models.Product, db *gorm.DB) error {
+func CreateProduct(req models.Product, db *gorm.DB) error {
 	err := db.Create(&req).Error
 
 	if err != nil {
@@ -49,11 +49,10 @@ func UpdateProduct(id int, data *models.Product, db *gorm.DB) (models.Product, e
 func DeleteProduct(id int, db *gorm.DB) error {
 	var product models.Product
 
-	del := db.Delete(&product, id)
+	err := db.Delete(&product, id).Error
 
-	if del.Error != nil {
-		return del.Error
-	} else {
-		return nil
-	}
+  if err != nil {
+    return err
+  }
+  return nil
 }
