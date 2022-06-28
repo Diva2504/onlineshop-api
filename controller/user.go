@@ -54,7 +54,6 @@ func (db Handlers) UserLogin(c *gin.Context) {
 		"message": "Login Succeed",
 		"token":   token,
 	})
-	return
 }
 
 func (db Handlers) UserTopup(c *gin.Context) {
