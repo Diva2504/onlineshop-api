@@ -3,6 +3,9 @@ Project ini adalah sebuah backend service dengan interface berupa API endpoint. 
 Pada project ini menggunakan fungsi authentication untuk mengenali user yang login, dan authorization untuk memberikan akses atau kebijakan tertentu untuk user dan juga 
 admin.
 
+## Deployment url
+https://onlineshop-api-hacktiv8.herokuapp.com
+
 ## API Endpoint
 ### users
 - {POST} /users/login (memberikan data kepada backend yang selanjutnya dicocokan dengan data user yang sudah ada pada database atau sudah registrasi)
